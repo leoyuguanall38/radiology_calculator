@@ -9,6 +9,14 @@ class RadiologyCalculator extends StatefulWidget {
 }
 
 class _RadiologyCalculatorState extends State<RadiologyCalculator> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,19 +38,47 @@ class _RadiologyCalculatorState extends State<RadiologyCalculator> {
         child: ListView.builder(
           itemCount: _radiologyCalculators.length,
           itemBuilder: (context, index) {
-            return ListTile(
-              onTap: () {
-                print('Success!');
-              },
-              title: Text(
-                _radiologyCalculators[index],
-                style: TextStyle(
-                  color: Colors.white,
+            return Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8.0,
+              ),
+              child: Container(
+                color: Colors.brown,
+                child: ListTile(
+                  onTap: () {
+                    print('Success!');
+                  },
+                  title: Text(
+                    _radiologyCalculators[index],
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
             );
           },
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        backgroundColor: Colors.grey[800],
+        selectedItemColor: Colors.amber,
+        unselectedItemColor: Colors.white,
+        selectedFontSize: 16.0,
+        unselectedFontSize: 16.0,
+        iconSize: 28.0,
+        onTap: _onItemTapped,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favorites',
+          ),
+        ],
       ),
     );
   }
