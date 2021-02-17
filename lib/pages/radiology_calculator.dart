@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:radiology_calculator/pages/assets/calculators.dart';
+import 'package:radiology_calculator/widgets/calculator_tile.dart';
 
 final List<String> _radiologyCalculators = radiologyCalculators;
 
@@ -34,28 +35,15 @@ class _RadiologyCalculatorState extends State<RadiologyCalculator> {
         ],
       ),
       body: Container(
+        padding: EdgeInsets.symmetric(
+          vertical: 8.0,
+        ),
         color: Colors.black,
         child: ListView.builder(
           itemCount: _radiologyCalculators.length,
           itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 8.0,
-              ),
-              child: Container(
-                color: Colors.brown,
-                child: ListTile(
-                  onTap: () {
-                    print('Success!');
-                  },
-                  title: Text(
-                    _radiologyCalculators[index],
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
+            return CalculatorTile(
+              entry: _radiologyCalculators[index],
             );
           },
         ),
