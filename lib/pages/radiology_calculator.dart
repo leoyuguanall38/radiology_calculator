@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:radiology_calculator/pages/assets/calculators.dart';
+import 'package:radiology_calculator/widgets/calculator_search.dart';
 import 'package:radiology_calculator/widgets/calculator_tile.dart';
 
 final List<String> _radiologyCalculators = radiologyCalculators;
@@ -25,11 +26,13 @@ class _RadiologyCalculatorState extends State<RadiologyCalculator> {
         centerTitle: true,
         elevation: 0.0,
         backgroundColor: Colors.grey[800],
-        title: Text('Radiology Calculator'),
+        title: Text('Radiology Tools'),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () {
+              showSearch(context: context, delegate: CalculatorSearch());
+            },
             iconSize: 30.0,
           ),
         ],

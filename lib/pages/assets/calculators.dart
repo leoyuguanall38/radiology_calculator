@@ -5,4 +5,5 @@ final List<String> radiologyCalculators = <String>[
   'Adrenal Lesion MRI',
   'Maximum Contrast Dose - Adults',
   'Prostate Volume',
+  'Fleischner Guidelines',
 ];

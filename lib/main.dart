@@ -15,7 +15,7 @@ class Home extends StatelessWidget {
         '/calculator': (context) => CalculatorPage(),
       },
       debugShowCheckedModeBanner: false,
-      title: 'Radiology Calculator',
+      title: 'Radiology Tools',
       home: RadiologyCalculator(),
     );
   }
