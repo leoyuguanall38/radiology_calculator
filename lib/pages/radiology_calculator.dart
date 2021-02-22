@@ -2,8 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:radiology_calculator/pages/assets/calculators.dart';
 import 'package:radiology_calculator/widgets/calculator_search.dart';
 import 'package:radiology_calculator/widgets/calculator_tile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final List<String> _radiologyCalculators = radiologyCalculators;
+
+Future<List<String>> _retrieveFavorites() async {
+  List<String> favCalculators = [];
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  _radiologyCalculators.forEach((element) {
+    bool isFavorite = prefs.getBool(element);
+    if (isFavorite) {
+      favCalculators.add(element);
+    }
+  });
+  return favCalculators;
+}
 
 class RadiologyCalculator extends StatefulWidget {
   @override
@@ -12,10 +25,24 @@ class RadiologyCalculator extends StatefulWidget {
 
 class _RadiologyCalculatorState extends State<RadiologyCalculator> {
   int _selectedIndex = 0;
+  List<String> _favoriteCalculators = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _retrieveFavorites().then((value) {
+      setState(() {
+        this._favoriteCalculators = value;
+      });
+    });
+  }
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
+    _retrieveFavorites().then((value) {
+      setState(() {
+        this._selectedIndex = index;
+        this._favoriteCalculators = value;
+      });
     });
   }
 
@@ -37,20 +64,7 @@ class _RadiologyCalculatorState extends State<RadiologyCalculator> {
           ),
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(
-          vertical: 8.0,
-        ),
-        color: Colors.black,
-        child: ListView.builder(
-          itemCount: _radiologyCalculators.length,
-          itemBuilder: (context, index) {
-            return CalculatorTile(
-              entry: _radiologyCalculators[index],
-            );
-          },
-        ),
-      ),
+      body: _selectedIndex == 0 ? _allCalculators() : _favCalculators(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         backgroundColor: Colors.grey[800],
@@ -70,6 +84,40 @@ class _RadiologyCalculatorState extends State<RadiologyCalculator> {
             label: 'Favorites',
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _allCalculators() {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        vertical: 8.0,
+      ),
+      color: Colors.black,
+      child: ListView.builder(
+        itemCount: _radiologyCalculators.length,
+        itemBuilder: (context, index) {
+          return CalculatorTile(
+            entry: _radiologyCalculators[index],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _favCalculators() {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        vertical: 8.0,
+      ),
+      color: Colors.black,
+      child: ListView.builder(
+        itemCount: this._favoriteCalculators.length,
+        itemBuilder: (context, index) {
+          return CalculatorTile(
+            entry: this._favoriteCalculators[index],
+          );
+        },
       ),
     );
   }
