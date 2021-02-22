@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:radiology_calculator/pages/calculator_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
@@ -47,7 +48,14 @@ class _CalculatorTileState extends State<CalculatorTile> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/calculator');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CalculatorPage(
+              name: entry,
+            ),
+          ),
+        );
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(
